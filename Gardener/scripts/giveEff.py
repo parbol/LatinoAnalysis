@@ -3,6 +3,11 @@ from LatinoAnalysis.Gardener.variables.efficiencies               import EffTrgF
 from LatinoAnalysis.Gardener.variables.triggerMaker               import triggerCalculator
 from LatinoAnalysis.Gardener.variables.triggerMaker               import triggerMaker
 
+
+##################################################################################################
+#######################################Definiciones ##############################################
+##################################################################################################
+
 Trigger = {}
 
 Trigger['Full2015'] =  { 1  :  { 'begin' : 1 , 'end' : 999999 , 'lumi' :  5.0 ,
@@ -281,8 +286,13 @@ Trigger['Full2016'] =  {
                                   
                         }
 
-#myTrig = EffTrgFiller()
+
+##################################################################################################
+##################################################################################################
+
 trigger = triggerMaker()
 triggerCalc = triggerCalculator(Trigger, 'Full2016', 1)
 
+
+#Here you can get the trigger efficiency. The arguments to _getWeight are: leptonID1, pt1, eta1, leptonID2, pt2, eta2, isData
 print triggerCalc._getWeight(11, 30, 0, 11, 30, 0)
