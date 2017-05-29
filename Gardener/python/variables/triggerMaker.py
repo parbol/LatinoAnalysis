@@ -24,6 +24,8 @@ class triggerCalculator():
        self.EMTFBug = Trigger[cmssw][iPeriod]['EMTFBug']
        print 'EMTF Bug : ' ,self.EMTFBug
 
+       print Trigger
+       print "My iperiod", iPeriod
        if isData: 
          self.EleMu     = copy.deepcopy(Trigger[cmssw][iPeriod]['DATA']['EleMu']) 
          self.DoubleMu  = copy.deepcopy(Trigger[cmssw][iPeriod]['DATA']['DoubleMu']) 

@@ -2,7 +2,7 @@
 from LatinoAnalysis.Gardener.variables.efficiencies               import EffTrgFiller
 from LatinoAnalysis.Gardener.variables.triggerMaker               import triggerCalculator
 from LatinoAnalysis.Gardener.variables.triggerMaker               import triggerMaker
-
+import random.py 
 
 ##################################################################################################
 #######################################Definiciones ##############################################
@@ -290,9 +290,51 @@ Trigger['Full2016'] =  {
 ##################################################################################################
 ##################################################################################################
 
+
+def produceTrigger(t, id1, pt1, eta1, id2, pt2, eta2):
+
+    lumiT = 0
+    eff = 0
+    eff_up = 0
+    eff_down = 0
+    
+
+    for i in range(1, 7):
+        r = t[i-1]._getWeight(id1, pt1, eta1, id2, pt2, eta2)
+        lumi = Trigger['Full2016'][i]['lumi']
+        lumiT = lumiT + lumi
+        eff = eff + r[0] * lumi
+        eff_up = eff_up + r[1] * lumi
+        eff_down = eff_down + r[2] * lumi
+
+    return [eff/lumiT, eff_up/lumiT, eff_down/lumiT]   
+
+
+##################################################################################################
+################################ Starting execution ##############################################
+##################################################################################################
+
 trigger = triggerMaker()
-triggerCalc = triggerCalculator(Trigger, 'Full2016', 1)
 
+triggerCalc = []
 
-#Here you can get the trigger efficiency. The arguments to _getWeight are: leptonID1, pt1, eta1, leptonID2, pt2, eta2, isData
-print triggerCalc._getWeight(11, 30, 0, 11, 30, 0)
+for i in range(1,7):
+    print i
+    triggerCalc.append(triggerCalculator(Trigger, 'Full2016', i))
+
+print produceTrigger(triggerCalc, 13, 11.775043, -0.981481, 13, 11.002916, -1.142095)
+print produceTrigger(triggerCalc, 11, 58.784824, 1.9521825, 11, 22.807735, 2.0053293)
+print produceTrigger(triggerCalc, 13, 18.354320, 0.7860127, 13, 15.827502, -0.185604)
+print produceTrigger(triggerCalc, 13, 18.489389, -2.018490, 13, 14.972436, -1.541828)
+
+#***********************************************************************************************
+#*    Row   * effTrigW  *      pt1  *      pt2  *     eta1  * eta2  *  abs(std_ *  abs(std_ *
+#************************************************************************************************
+#*       99 *         0 * 11.775043 * 11.002916 * -0.981481 * -1.142095 *        13 *        13 *
+#*      146 * 0.9958699 * 58.784824 * 22.807735 * 1.9521825 * 2.0053293 *        11 *        11 *
+#*      166 * 0.9862705 * 19.418031 * 18.306774 * -1.564769 * -0.729122 *        13 *        13 *
+#*      228 * 0.9141272 * 40.964599 * 9.6164522 * -1.024356 * -0.954535 *        11 *        11 *
+#*      242 * 0.8987861 * 18.354320 * 15.827502 * 0.7860127 * -0.185604 *        13 *        13 *
+#*      277 * 0.8509899 * 18.489389 * 14.972436 * -2.018490 * -1.541828 *        13 *        13 *
+#*      326 *         0 * 13.293316 * 12.362526 * 0.8814294 * 0.8575879 *        13 *        13 *
+
